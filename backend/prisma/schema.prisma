@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+generator client {
+  provider        = "prisma-client-js"
+  engineType      = "library"  // Change this to library or binary
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://avnadmin:AVNS_nonKgm8AnhTMkwhOAJq@esports-tracker-aryansharma6779-e3c4.l.aivencloud.com:19382/defaultdb?sslmode=require"
+}
+model Team{
+  id  String @id @default(uuid())
+  name String @unique 
+  description String ? 
+  Players Player[] 
+  image String 
+}
+model Player{
+  id String @id @default(uuid())
+  name String
+  surname String?
+  ign String 
+  current Boolean @default(false)
+  
+  autor Team @relation(fields: [authorid],references: [id])
+  authorid String
+}
