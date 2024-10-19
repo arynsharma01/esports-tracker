@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 
 
 
-export const app = new Hono<{
+export const teamRouter = new Hono<{
     Bindings: {
       DATABASE_URL: string;
       JWT_SECRET: string;
@@ -23,7 +23,7 @@ export const app = new Hono<{
 
   })
 
-  app.post('/team',async (c,next)=>{
+  teamRouter.post('/add',async (c,next)=>{  // adding teams 
 
 
     const prisma = new PrismaClient({
@@ -143,3 +143,35 @@ export const app = new Hono<{
       return c.text("some internal error  ")
     }
   })
+  teamRouter.get('/view' , async (c)=>{ 
+    try{
+      const prisma = new PrismaClient({
+        datasources: {
+          db: {
+            url: c.env.DATABASE_URL
+          },
+        },
+      }).$extends(withAccelerate());
+
+      const teams = await prisma.team.findMany({})
+      if(teams == null ){
+        c.status(200)
+        return c.json({
+          message : "no teams found"
+        })
+      }
+      c.status(200)
+      return c.json({
+        teams : teams
+
+      })
+  }
+  catch(e){
+    c.status(404)
+    return c.json({
+      message : "some internal error "
+    })
+  }
+  
+
+})

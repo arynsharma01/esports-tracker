@@ -12,7 +12,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://avnadmin:AVNS_nonKgm8AnhTMkwhOAJq@esports-tracker-aryansharma6779-e3c4.l.aivencloud.com:19382/defaultdb?sslmode=require"
+  url      = env("DATABASE_URL")
 }
 model Team{
   id  String @id @default(uuid())
@@ -26,8 +26,9 @@ model Player{
   name String
   surname String?
   ign String 
-  current Boolean @default(false)
-  
+  role String @default("assaulter")
+  handler String? 
+
   autor Team @relation(fields: [authorid],references: [id])
   authorid String
 }

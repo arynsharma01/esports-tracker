@@ -1,7 +1,9 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import {app as teamRouter} from './Routes/team'
+import { teamRouter} from './Routes/team'
+import { playerRouter } from './Routes/player';
+import { cors } from 'hono/cors';
 
 
 export const app = new Hono<{
@@ -13,36 +15,17 @@ export const app = new Hono<{
     REGION: string
   }
 }>();
+app.use(cors())
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 
-app.route('/add/new' , teamRouter)
+app.route('/api/v1/team' , teamRouter)
+app.route('/api/v1/player', playerRouter)
 
-app.get('/bgmi/get/team', async (c) => {
-  const prisma = new PrismaClient({
-    datasources: {
-      db: {
-        url: c.env.DATABASE_URL
-      },
-    }
-  }).$extends(withAccelerate());
 
-  const body = await prisma.team.findFirst({
-    where: {
-      id: "0fe70ab0-4c0c-4ac0-96a8-16530450dff5"
-    }
-  }) || "this is a new team"
-  c.status(200)
-  return c.json(body)
 
-})
 
-interface body {
-  name: string,
-  description: string
-  image: string
-}
 
 export default app
