@@ -1,9 +1,10 @@
 import { Hono } from 'hono'
-import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
+
 import { teamRouter} from './Routes/team'
 import { playerRouter } from './Routes/player';
 import { cors } from 'hono/cors';
+
+import {  userRouter } from './Routes/user';
 
 
 export const app = new Hono<{
@@ -15,7 +16,9 @@ export const app = new Hono<{
     REGION: string
   }
 }>();
+
 app.use(cors())
+
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
@@ -23,9 +26,14 @@ app.get('/', (c) => {
 
 app.route('/api/v1/team' , teamRouter)
 app.route('/api/v1/player', playerRouter)
+app.route('/api/v1/user',userRouter)
 
 
 
 
 
 export default app
+function compression(): any {
+  throw new Error('Function not implemented.');
+}
+

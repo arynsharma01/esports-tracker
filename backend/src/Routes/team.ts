@@ -4,6 +4,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 import { z } from 'zod';
 import { v4 } from "uuid";
+import { Jwt } from "hono/utils/jwt";
 
 
 
@@ -33,6 +34,8 @@ export const teamRouter = new Hono<{
           },
         },
       }).$extends(withAccelerate());
+    
+    
     
     const body = await c.req.formData()
     const teamName = body.get('name')?.toString()
@@ -81,7 +84,27 @@ export const teamRouter = new Hono<{
         }
   
       },)
-  
+      
+      const Authorization = c.req.header('Authorization')
+
+      if (Authorization == null ) {
+        c.status(401)
+        return c.json({
+          message : "Unauthorized"
+        })
+      }
+      // console.log(Authorization);
+      
+      const payload = await Jwt.verify(Authorization,c.env.JWT_SECRET) 
+      
+      const email = payload as unknown  as string
+      
+      
+      
+      
+      
+     
+      // console.log(email);
       const body = await c.req.formData()
       const name  = body.get("name") as string
       const description = body.get("description") as string
@@ -102,7 +125,16 @@ export const teamRouter = new Hono<{
         c.status(400)
         return c.text("image not found ")
       }
-  
+      
+      const user = await prisma.user.findUnique({
+        where: { email: email },
+    });
+    
+    
+    if (!user) {
+        throw new Error('User not found');
+    }
+
       console.log(body);
 
       const arrayBuffer = await imageFile.arrayBuffer(); 
@@ -122,9 +154,11 @@ export const teamRouter = new Hono<{
 
       const dataToTable = await prisma.team.create({
         data : {
+            userid : user.id,
             name : name ,
             description : description,
-            image : imageUrl
+            image : imageUrl,
+            
             
         }
       })

@@ -1,25 +1,28 @@
 import { useNavigate } from "react-router-dom"
-import { Players } from "./Players"
+
 
 interface props {
-    name : string,
+    teamName : string,
     description: string,
     image : string 
-    id: string
+    teamid: string
 
 }
-export function Team({id,name,description,image} : props){
+export default function Team({teamid,teamName,description,image} : props){
     const navigate = useNavigate()
     
-    return <div className=" flex flex-col justify-center items-center hover:animate-pulse hover:cursor-pointer p-3" onClick={()=>{
-        navigate(`player?id=${id}`)
+    return <div className=" flex flex-col justify-center items-center hover:animate-pulse hover:cursor-pointer p-4 m-3" onClick={()=>{
+        // navigate(`player`)
+        navigate('/players',{state :{teamid :teamid, teamName:teamName, description:description, image:image},
+        replace:true})
+        // <Players teamid ={teamid} teamName={name} description={description} image={image}></Players>
        }}   >
         <div className="" >
-        <img className="w-[50px] h-[50px] rounded-lg object-cover" src= {image} alt="team" />
+        <img className="w-[50px] h-[50px] rounded-lg object-fill" src= {image} alt="team" />
         
         </div>
         <div>
-        {name}
+        {teamName}
         </div>
        
         

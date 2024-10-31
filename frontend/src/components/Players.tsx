@@ -1,51 +1,84 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+
 import { Playerinfo } from "./Playerinfo";
+import { useLocation } from "react-router-dom";
 
 
-interface Data {
-    playerName : string,
-    playerSurname: string,
-    ign : string,
-    role : string
-    
-
+interface PlayerData {
+    name: string
+    surname: string
+    ign: string
+    role: string
+    handler: string
 }
-export  function Players(){
-    const [searchParams] = useSearchParams();
-  const playerId = searchParams.get('id');
-  console.log(playerId);
-  
-    const [players,setPlayers] = useState<Data[]>([])
-    useEffect(()=>{
+
+export function Players() {
+    //     const [searchParams] = useSearchParams();
+    //   const playerId = searchParams.get('id');
+    //   console.log(playerId);
+
+
+    const location = useLocation()
+    const { teamName, description, image, teamid } = location.state || {}
+    const [players, setPlayers] = useState<PlayerData[]>([])
+    useEffect(() => {
+
         async function getData() {
             const response = await axios({
-                method : 'get',
-                url : `http://127.0.0.1:8787/api/v1/player/view?id=${playerId}`,
-                
+                method: 'get',
+                url: `http://127.0.0.1:8787/api/v1/player/view?id=${teamid}`,
+
             })
             const data = response.data
             setPlayers(data.players)
-            
+
             console.log(data.players);
         }
         getData()
-    },[playerId])
-    return(
+    }, [teamid])
+    return (
         <div>
-             {players.map((player) => (
-                <Playerinfo 
-                    
-                    playerName={player.playerName}
-                    playerSurname={player.playerSurname}
-                    ign={player.ign}
-                    role={player.role}
-                />
-            ))}
-                
+
+            <div className="flex flex-col items-center justify-center w-screen">
+                <img className="w-[70px] h-[70px] rounded-lg object-cover" src={image} alt="teamImage" />
+                <div className="text-center font-bold "> {teamName} </div>
+                <div className="text-center font-light text-gray-600"> {description} </div>
+            </div>
+
+            <div className="flex flex-col justify-center items-center mt-6 p-4 gap-8">
+
+                <table className="table-auto md:tabel-fixed w-2/4 ">
+                    <thead>
+                        <tr>
+                            <th className="px-4">Name</th>
+                            <th className="px-4">Surname  </th>
+                            <th className="px-4">Ingame Name </th>
+                            <th className="px-4"> Role </th>
+                            <th className="px-4"> Social</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-center ">
+                        {players.map((player) => (
+                            
+                            <Playerinfo
+
+                                playerName={player.name}
+                                playerSurname={player.surname}
+                                ign={player.ign}
+                                role={player.role} handler={player.handler} />
+                        ))}
+                    </tbody>
+
+                </table>
+
+
+            </div>
         </div>
     )
-    
-    
+
+
 }
+
+
+
