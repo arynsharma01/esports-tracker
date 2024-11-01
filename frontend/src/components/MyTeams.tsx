@@ -39,13 +39,14 @@ export function MyTeams() {
 
     async function deleteTeam(teamid: string) {
         try{
-        const res = await axios.delete('https://backend.aryansharma6779.workers.dev/api/v1/team/delete',{
+        await axios.delete('https://backend.aryansharma6779.workers.dev/api/v1/team/delete',{
             headers :{
                 Authorization : localStorage.getItem('Authorization'),
                 teamid : teamid
             }
         })
-        console.log(res.data.message);
+        window.location.reload();
+
         
     }
     catch(e:any){
