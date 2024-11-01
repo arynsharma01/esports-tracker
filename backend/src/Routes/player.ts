@@ -14,11 +14,12 @@ export const playerRouter = new Hono<{
 
 
 const playerSchema = z.object({
-  name: z.string().min(4, { message: "minimum name size should be 3" }),
+  authorid : z.string(),
+  name: z.string().min(3, { message: "minimum name size should be 3" }),
   surname: z.string().optional(),
-  ign: z.string().min(4, { message: "minimum name size should be 3" }),
+  ign: z.string().min(3, { message: "minimum name size should be 3" }),
   role :z.string(),
-  handler : z.string().url().optional()
+  handler : z.string().optional()
 })
 playerRouter.post('/add', async (c) => {
   const prisma = new PrismaClient({
@@ -43,15 +44,19 @@ playerRouter.post('/add', async (c) => {
     surname: surname,
     ign: ign,
     role:role ,
-    handler : handler
+    handler : handler,
+    authorid :authorid
 
   })
   if (!validSchema.success) {
+    console.log("schema");
+    console.log(validSchema);
+    
+    
     c.status(400)
-    console.log("here ");
     
     return c.json({
-      message: validSchema.error.errors
+      message:  validSchema.error.errors
     })
   }
 
@@ -72,6 +77,7 @@ playerRouter.post('/add', async (c) => {
   })
   console.log(authorid);
   
+
 
   if (validId == null) {
     c.status(411)

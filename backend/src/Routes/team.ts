@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 import { z } from 'zod';
 import { v4 } from "uuid";
 import { Jwt } from "hono/utils/jwt";
@@ -209,3 +209,92 @@ export const teamRouter = new Hono<{
   
 
 })
+teamRouter.delete('/delete',async (c)=>{
+
+
+  const prisma = new PrismaClient({
+    datasources: {
+      db: {
+        url: c.env.DATABASE_URL
+      },
+    },
+  }).$extends(withAccelerate());
+
+
+  const client = new S3Client({
+    region: c.env.REGION,
+    credentials: {
+      accessKeyId: c.env.ACCESS_KEY_ID,
+      secretAccessKey: c.env.SECRET_ACCESS_KEY
+    }
+
+  },)
+
+  const Authorization = c.req.header('Authorization')
+  const teamid = c.req.header('teamid')
+  console.log(Authorization);
+  console.log(teamid);
+  
+  if(!Authorization){
+    c.json(400)
+    return c.json({
+      message: "no token found "
+    })
+  }
+  const payload = await Jwt.verify(Authorization,c.env.JWT_SECRET) 
+      
+  const email = payload as unknown  as string
+  try {
+
+  
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email : email
+    }
+  })
+
+ 
+  
+  if(!existingUser){
+    c.json(400)
+    return c.json({
+      message: "invalid user "
+    })
+  }
+  const deleteTeam = await prisma.team.delete({
+    where :{
+      id : teamid
+    }
+  })
+  if(!deleteTeam){
+    c.json(404)
+    return c.json({
+      message: "error in deleting team  "
+    })
+  }
+  const uniqueKey = 'image-' + teamid
+  const input = {
+    Bucket: 'esports-tracker',
+    Key: uniqueKey,
+  }
+  const command = new DeleteObjectCommand(input)
+  await client.send(command)
+
+
+  c.json(200)
+    return c.json({
+      message: "deleted successfully"
+    })
+
+  }
+  catch(e:any){
+    c.json(403)
+    return c.json({
+      message: "some internal error "
+    })
+
+  }
+  }
+  
+
+)

@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { Jwt } from "hono/utils/jwt";
+import { adminRouter } from "./admin";
 
 
 
@@ -13,6 +14,9 @@ export const myTeams = new Hono<{
   
     }
   }>();
+
+  myTeams.route('/admin',adminRouter)
+
 
   myTeams.get('/myteams',async (c)=>{
 
@@ -71,17 +75,4 @@ catch(e:any){
   
   })
   
-  myTeams.get('/email',async (c)=>{
-    const prisma = new PrismaClient({
-        datasources: {
-          db: {
-            url: c.env.DATABASE_URL
-          },
-        },
-      }).$extends(withAccelerate());
-
-      const users = await prisma.user.findMany({})
-      return c.json({
-        users : users
-      })
-  } )
+  

@@ -114,6 +114,7 @@ userRouter.post('/signin',async (c)=>{
       password:password
     })
     if(!validSchema.success){ 
+      c.status(400)
       return c.json({
         message: "invalid schema/password"
       })
@@ -132,7 +133,7 @@ userRouter.post('/signin',async (c)=>{
     if(!existingUser){
       c.status(400)
       return c.json({
-        message : "incorrect email/password email"
+        message : "incorrect email/password "
       })
     }
     const token = await Jwt.sign(email,c.env.JWT_SECRET)

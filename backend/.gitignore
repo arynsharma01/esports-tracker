@@ -12,6 +12,8 @@ dist/
 .idea/usage.statistics.xml
 .idea/shelf
 
+src/Routes/admin.ts
+
 # deps
 node_modules/
 .wrangler
