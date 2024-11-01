@@ -45,7 +45,7 @@ export function MyTeams() {
                 teamid : teamid
             }
         })
-        window.location.reload();
+        
 
         
     }
