@@ -7,7 +7,7 @@ import { Quote } from "./Quote";
 import Loader from "./Loader";
 
 import Team from "./Team";
-import { Signup } from "./Signup";
+
 import { Link } from "react-router-dom";
 
 
@@ -84,6 +84,7 @@ export default function Home() {
 
         ))}
       </div>
+      {}
       <div className="flex flex-col  justify-center text-center w-screen">
         <div className="text-slate-500">
           Can't see your fav team here ? Register now and add your team

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Team from "./Team";
 
+
+
 interface Data {
     name: string,
     description: string,
@@ -21,9 +23,11 @@ export function MyTeams() {
 
     useEffect(() => {
         if (localStorage.getItem("Authorization") === null) {
+            
             setTimeout(() => {
                 navigate('/signin');
-            }, 5000);
+            }, 3000);
+            
         } else {
             async function getTeams() {
                 const res = await axios.get('https://backend.aryansharma6779.workers.dev/api/v1/user/view/myteams', config);
@@ -33,13 +37,41 @@ export function MyTeams() {
         }
     }, [navigate]);
 
+    async function deleteTeam(teamid: string) {
+        try{
+        const res = await axios.delete('https://backend.aryansharma6779.workers.dev/api/v1/team/delete',{
+            headers :{
+                Authorization : localStorage.getItem('Authorization'),
+                teamid : teamid
+            }
+        })
+        console.log(res.data.message);
+        
+    }
+    catch(e:any){
+        console.log(e.response.data.message);
+        
+    }
+
+    }
+
     return (
-        <div className="flex flex-cols justify-evenly ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {teams.length > 0 ? (
-                
+
                 teams.map(team => (
-                    
-                    <Team teamid={team.id} teamName={team.name} description= {team.description} image={team.image} ></Team>
+                    <div className="flex flex-col justify-center items-center">
+
+                        <Team teamid={team.id} teamName={team.name} description={team.description} image={team.image}  ></Team>
+
+                        <button id={team.id} className="rounded-lg bg-slate-700 hover:bg-black text-white hover w-32 h-12
+                     hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#08f,0_0_15px_#08f,0_0_30px_#08f] " onClick={() => {
+                                console.log(team.id);
+
+                                deleteTeam(team.id)
+                            }}>Remove </button>
+
+                    </div>
                 ))
             ) : (
                 <p>Loading teams... / no teams found </p>

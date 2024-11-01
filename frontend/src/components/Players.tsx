@@ -27,7 +27,7 @@ export function Players() {
         async function getData() {
             const response = await axios({
                 method: 'get',
-                url: `http://127.0.0.1:8787/api/v1/player/view?id=${teamid}`,
+                url: `https://backend.aryansharma6779.workers.dev/api/v1/player/view?id=${teamid}`,
 
             })
             const data = response.data
@@ -41,8 +41,8 @@ export function Players() {
         <div>
 
             <div className="flex flex-col items-center justify-center w-screen">
-                <img className="w-[70px] h-[70px] rounded-lg object-cover" src={image} alt="teamImage" />
-                <div className="text-center font-bold "> {teamName} </div>
+                <img className="w-[70px] h-[70px] rounded-lg object-fill p-4 mt-3 " src={image} alt="teamImage" />
+                <div className="text-center font-bold text-2xl "> {teamName} </div>
                 <div className="text-center font-light text-gray-600"> {description} </div>
             </div>
 

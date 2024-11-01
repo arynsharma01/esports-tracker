@@ -9,6 +9,8 @@ import { AddTeam } from './components/AddTeam'
 import Signin from './components/Signin'
 import { MyTeams } from './components/MyTeams'
 
+import Addplayer from './components/AddPlayer'
+
 
 function App() {
   
@@ -26,6 +28,7 @@ function App() {
     <Route path='/signin' element = {<Signin></Signin>}></Route>
     <Route path='/add/team' element = {<AddTeam></AddTeam>}></Route>
     <Route path='/view/myteams' element = {<MyTeams></MyTeams>}></Route>
+    <Route path='/add-players' element = {<Addplayer></Addplayer>}></Route>
     
       
       

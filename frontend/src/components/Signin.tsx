@@ -19,6 +19,10 @@ export default function Signin(){
         try{
             const res =await  axios.post('https://backend.aryansharma6779.workers.dev/api/v1/user/signin',body)
             const token = res.data.token
+            console.log(token);
+            console.log(res);
+            
+            
             localStorage.setItem('Authorization',token)
             console.log("signed in ");
             navigate('/')

@@ -12,6 +12,8 @@ export function AddTeam() {
     const [warning, setWarning] = useState("")
     const [color, setColor] = useState("")
 
+    const [masxFile,setMaxFile] = useState("")
+
     const navigate = useNavigate()
 
 
@@ -38,16 +40,17 @@ export function AddTeam() {
 
     async function createTeam() {
         try {
-            const res = await axios.post('http://127.0.0.1:8787/api/v1/team/add', formdata, config)
+            const res = await axios.post('https://backend.aryansharma6779.workers.dev/api/v1/team/add', formdata, config)
             // console.log(res);
-
+            
+            
             setWarning(res.data.message)
             console.log(setWarning);
             setColor("green")
-            
+            console.log(res.data.id)
             setTimeout(()=>{
-                navigate('/add-palyers',{replace :true,
-                    state :{}
+                navigate('/add-players',{replace :true,
+                    state :{teamid :res.data.id}
                 })
             },7000)
             // console.log(res.data.message);
@@ -65,7 +68,7 @@ export function AddTeam() {
 
     }
 
-    
+    const MAX_FILE_SIZE = 100 * 1024
     return <div className="flex  items-center justify-center  min-h-[80vh]">
 
         <div className="flex flex-col justify-center items-center border rounded-lg border-gray-400 w-full max-w-md p-6 shadow-lg bg-gray-50 space-y-4">
@@ -74,22 +77,39 @@ export function AddTeam() {
                 New Team
             </div>
             <Input heading="Team Name " placeholder="minimum 3 letters " type="text" onChange={setTeamName}></Input>
-            <Input heading="Description " placeholder="optional " type="text" onChange={setDescription}></Input>
+            
+            
+
+
+            <div className="flex flex-col  justify-center">
+        <div className="font-semibold p-1 ">
+            Description 
+        </div>
+        <div>
+            <textarea  onChange={(e)=>{
+                setDescription(e.target.value)
+            }} className="p-2 border rounded-md border-gray-500 w-60 h-40 focus:ring-2 focus:ring-blue-500 text-wrap"  placeholder="optional " />
+        </div>
+    </div>
+
+
 
             <div className="font-semibold p-1 text-left ">
                 Image
             </div>
-
-            <input type="file" accept="image/jpeg,image/png" onChange={(e) => {
-                if (!e.target.files || e.target.files.length === 0) {
-                    console.log("select a file ");
-
+            
+            <input type="file" accept="image/png" onChange={(e) => {
+                if (!e.target.files || e.target.files.length === 0 ||e.target.files[0].size > MAX_FILE_SIZE ) {
+                    
+                    setMaxFile("select a file upto 100 kb ")
                     return
                 }
+                setMaxFile("")
                 setFile(e.target.files[0])
 
             }} className="p-2 border rounded-md border-gray-500 w-60 h-12 focus:ring-2 focus:ring-blue-500" />
-
+            <div className="text-red-500 font-light">{masxFile}</div>
+            <div className=" text-slate-500 font-light"> Please do not upload images over 100kb or any adult images else your team would be deleted immediately  </div>
             <Button label="Add team " onClick={() => {
                 createTeam()
             }}></Button>

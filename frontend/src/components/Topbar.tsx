@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { TopbarButton } from "./TopbarButton";
+import Menu from "./Menu";
 
 export function Topbar() {
   const navigate = useNavigate();
@@ -34,7 +35,21 @@ export function Topbar() {
               Login
             </button>
           ) : (
-            <button
+            
+            <Menu></Menu>
+            
+          )}
+          
+        </div>
+        
+      </div>
+    </div>
+  );
+}
+
+
+
+{/* <button
               className="bg-red-400 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-red-500"
               onClick={() => {
                 localStorage.removeItem('Authorization');
@@ -42,11 +57,4 @@ export function Topbar() {
               }}
             >
               Signout
-            </button>
-          )}
-        </div>
-        
-      </div>
-    </div>
-  );
-}
+            </button> */}
