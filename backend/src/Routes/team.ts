@@ -253,7 +253,18 @@ teamRouter.delete('/delete',async (c)=>{
     }
   })
 
+  const existingTeam = await prisma.team.findFirst({
+    where : {
+      id : teamid
+    }
+  })
  
+  const imageUrl = existingTeam?.image
+  const uniqueKey = imageUrl?.replace("https://esports-tracker.s3.ap-south-1.amazonaws.com/","")
+  console.log(uniqueKey);
+  
+  
+
   
   if(!existingUser){
     c.json(400)
@@ -272,7 +283,7 @@ teamRouter.delete('/delete',async (c)=>{
       message: "error in deleting team  "
     })
   }
-  const uniqueKey = 'image-' + teamid
+  
   const input = {
     Bucket: 'esports-tracker',
     Key: uniqueKey,
@@ -280,6 +291,7 @@ teamRouter.delete('/delete',async (c)=>{
   const command = new DeleteObjectCommand(input)
   await client.send(command)
 
+  
 
   c.json(200)
     return c.json({

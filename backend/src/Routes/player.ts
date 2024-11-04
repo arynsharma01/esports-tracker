@@ -91,7 +91,8 @@ playerRouter.post('/add', async (c) => {
       surname: surname,
       ign: ign,
       authorid: authorid,
-      handler : handler
+      handler : handler,
+      role : role 
     }
   })
   console.log(createPlayer);

@@ -20,7 +20,7 @@ model Team{
   description String ? 
   Players Player[] 
   image String 
-  user User @relation(fields: [userid],references: [id])
+  user User @relation(fields: [userid],references: [id],onDelete: Cascade)
   userid  String
 }
 model Player{
@@ -28,10 +28,10 @@ model Player{
   name String
   surname String?
   ign String 
-  role String @default("assaulter")
+  role String 
   handler String? 
 
-  autor Team @relation(fields: [authorid],references: [id])
+  autor Team @relation(fields: [authorid],references: [id],onDelete: Cascade)
   authorid String
 }
 
