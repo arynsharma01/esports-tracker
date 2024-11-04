@@ -52,7 +52,7 @@ export function AddTeam() {
                 navigate('/add-players',{replace :true,
                     state :{teamid :res.data.id}
                 })
-            },7000)
+            },3000)
             // console.log(res.data.message);
 
         }
@@ -98,7 +98,7 @@ export function AddTeam() {
                 Image
             </div>
             
-            <input type="file" accept="image/png" onChange={(e) => {
+            <input type="file" accept="image/png,image/jpeg" onChange={(e) => {
                 if (!e.target.files || e.target.files.length === 0 ||e.target.files[0].size > MAX_FILE_SIZE ) {
                     
                     setMaxFile("select a file upto 100 kb ")

@@ -39,12 +39,16 @@ export function MyTeams() {
 
     async function deleteTeam(teamid: string) {
         try{
-        await axios.delete('https://backend.aryansharma6779.workers.dev/api/v1/team/delete',{
+        const res = await axios.delete('https://backend.aryansharma6779.workers.dev/api/v1/team/delete',{
             headers :{
                 Authorization : localStorage.getItem('Authorization'),
                 teamid : teamid
             }
         })
+        
+        console.log(res.data.message);
+        window.location.reload()
+        
         
 
         
@@ -65,12 +69,28 @@ export function MyTeams() {
 
                         <Team teamid={team.id} teamName={team.name} description={team.description} image={team.image}  ></Team>
 
-                        <button id={team.id} className="rounded-lg bg-slate-700 hover:bg-black text-white hover w-32 h-12
+                        <div className="flex ">
+
+                        <button id={team.id} className="rounded-lg bg-black hover:bg-black text-white hover w-32 h-12
                      hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#08f,0_0_15px_#08f,0_0_30px_#08f] " onClick={() => {
                                 console.log(team.id);
 
                                 deleteTeam(team.id)
                             }}>Remove </button>
+                        
+                        <button className=" ml-3 rounded-lg bg-black hover:bg-black text-white hover w-32 h-12
+                     hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#08f,0_0_15px_#08f,0_0_30px_#08f] " onClick={()=>{
+
+                        navigate('/add-players',{
+                            replace :true,
+                            state :{
+                             teamid : team.id   
+                            }
+                        })
+
+                     }} >Add Player</button>
+                        </div>
+                        
 
                     </div>
                 ))

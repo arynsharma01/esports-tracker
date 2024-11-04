@@ -53,7 +53,7 @@ export default function AddPlayer() {
         
         
         console.log(e.response.data.message);
-        setWarning("Please check the inputs " + e)
+        setWarning("Please check the inputs " + e.response.data.message)
         setColor('text-red-500')
     }
     }
@@ -65,7 +65,7 @@ export default function AddPlayer() {
                 Player Info 
             </div>
             <AddPlayerInput label="Name" placeholder="minimum 3 letters " condition = {true} onChange={setName} ></AddPlayerInput>
-            <AddPlayerInput label="Surname" placeholder="minimum 3 letters " condition = {false} onChange={setSurname} ></AddPlayerInput>
+            <AddPlayerInput label="Surname" placeholder="minimum 3 letters " condition = {true} onChange={setSurname} ></AddPlayerInput>
             <AddPlayerInput label="InGameName (IGN)" placeholder="minimum 3 letters " condition = {true} onChange={setIgn} ></AddPlayerInput>
             <AddPlayerInput label="Role" placeholder="igl,entry-frag... etc" condition = {true} onChange={setRole} ></AddPlayerInput>
             <AddPlayerInput label="Handler" placeholder="Paste Social Link" condition = {false} onChange={setHandler} ></AddPlayerInput>
