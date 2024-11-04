@@ -51,7 +51,7 @@ export function Players() {
                 <table className="table-auto md:tabel-fixed w-2/4 ">
                     <thead>
                         <tr>
-                        <th className="px-4">Ingame Name </th>
+                            <th className="px-4">Ingame Name </th>
                             <th className="px-4">Name</th>
                             <th className="px-4">Surname  </th>
                             
