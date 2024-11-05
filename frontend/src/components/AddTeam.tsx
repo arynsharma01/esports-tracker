@@ -68,7 +68,7 @@ export function AddTeam() {
 
     }
 
-    const MAX_FILE_SIZE = 100 * 1024
+    const MAX_FILE_SIZE = 1 * 1024 * 1024
     return <div className="flex  items-center justify-center  min-h-[80vh]">
 
         <div className="flex flex-col justify-center items-center border rounded-lg border-gray-400 w-full max-w-md p-6 shadow-lg bg-gray-50 space-y-4">
@@ -109,7 +109,7 @@ export function AddTeam() {
 
             }} className="p-2 border rounded-md border-gray-500 w-60 h-12 focus:ring-2 focus:ring-blue-500" />
             <div className="text-red-500 font-light">{masxFile}</div>
-            <div className=" text-slate-500 font-light"> Please do not upload images over 100kb or any adult images else your team would be deleted immediately  </div>
+            <div className=" text-slate-500 font-light"> Please do not upload images over 1 mb or any adult images else your team would be deleted immediately  </div>
             <Button label="Add team " onClick={() => {
                 createTeam()
             }}></Button>
