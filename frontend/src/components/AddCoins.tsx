@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Pricing from "./Pricing";
 import axios from "axios";
 import { Button } from "./Button";
-import Razorpay from "razorpay";
+
 import Loader from "./Loader";
 
 interface coinsPack {

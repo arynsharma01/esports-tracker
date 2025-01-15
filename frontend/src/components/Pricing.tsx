@@ -10,7 +10,7 @@ interface props {
   setSelect : (value :boolean)=>void,
   purchased : string
 }
-export default function Pricing({id,price,coins,index  ,setPurchased,setSelect,purchased}:props) {
+export default function Pricing({id,price,coins ,setPurchased,setSelect,purchased}:props) {
     return (
       <div className={`bg-slate-200 hover:bg-green-200 w-[150px] h-[100px] rounded-xl flex items-center justify-center flex-col sle hover:border-red-900 border hover:cursor-pointer 
         ${purchased === id ?  "border-2 border-red-900" : ""} `}
