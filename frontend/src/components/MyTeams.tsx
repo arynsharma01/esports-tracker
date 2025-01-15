@@ -71,7 +71,7 @@ export function MyTeams() {
 
                         <div className="flex ">
 
-                        <button id={team.id} className="rounded-lg bg-black hover:bg-black text-white hover w-32 h-12
+                        <button id={team.id} className="rounded-lg mb-3 bg-black hover:bg-black text-white hover w-32 h-12
                      hover:shadow-[0_0_2px_#fff,inset_0_0_2px_#fff,0_0_5px_#08f,0_0_15px_#08f,0_0_30px_#08f] " onClick={() => {
                                 console.log(team.id);
 

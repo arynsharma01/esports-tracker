@@ -12,6 +12,8 @@ import { MyTeams } from './components/MyTeams'
 import Addplayer from './components/AddPlayer'
 import Contact from './components/Contact'
 import Tournaments from './components/Tournaments'
+import Test from './components/Test'
+import AddCoins from './components/AddCoins'
 
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
     <Route path='/add-players' element = {<Addplayer></Addplayer>}></Route>
     <Route path='/contact' element = {<Contact></Contact>}></Route>
     <Route path='/tournaments' element = {<Tournaments></Tournaments>}></Route>
+    <Route path='/test' element = {<Test/>}></Route>
+    <Route path='/add-coins' element = {<AddCoins/>}></Route>
     
       
       

@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { TopbarButton } from "./TopbarButton";
 import Menu from "./Menu";
+import Coins from "./Coins";
 
 export function Topbar() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-screen border shadow-md bg-white">
+    <div className="w-screen border shadow-md bg-white ">
       <div className="flex justify-between items-center h-20 px-4 py-2 space-x-4">
 
         {/* Logo Section */}
@@ -18,30 +19,52 @@ export function Topbar() {
           />
         </div>
 
-        
-        <div className="flex space-x-3 text-sm  md:space-x-6  md:text-base  ">
+
+        <div className="flex justify-between space-x-3 text-sm  md:space-x-6  md:text-base  ">
           <TopbarButton label="Home" link="/" />
           <TopbarButton label="Tournaments" link="/tournaments" />
           <TopbarButton label="Contact us" link="/contact" />
+          <div>
+          {localStorage.getItem('Authorization') == null ? (
+              <div></div>
+            ) : (
+              <div className=""><Coins></Coins></div>
+            )}
+          </div>
+          <div>
+          </div>
+
+
         </div>
 
-        
+
+
         <div>
-          {localStorage.getItem('Authorization') == null ? (
-            <button
-              className="bg-sky-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-sky-600"
-              onClick={() => navigate('signin')}
-            >
-              Login
-            </button>
-          ) : (
+
+          <div className="flex justify-between ">
             
-            <Menu></Menu>
             
-          )}
-          
+
+            <div className="mr-1">
+              {localStorage.getItem('Authorization') == null ? (
+                <button
+                  className="bg-sky-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-sky-600"
+                  onClick={() => navigate('signin')}
+                >
+                  Login
+                </button>
+              ) : (
+
+                <Menu></Menu>
+
+              )}
+            </div>
+
+          </div>
+
+
         </div>
-        
+
       </div>
     </div>
   );

@@ -152,5 +152,55 @@ userRouter.post('/signin',async (c)=>{
 
 })
 
+userRouter.get('/coins',async(c)=>{
+
+  interface jwtPayload {
+    email? : string
+  }
+  const prisma = new PrismaClient({
+    datasources: {
+      db: {
+        url: c.env.DATABASE_URL
+      },
+    },
+  }).$extends(withAccelerate());
+
+  try{
+  const Authorization = c.req.header('Authorization')
+    if(!Authorization ){
+        c.status(400)
+      return c.json({
+        message : "invalid access"
+      })
+    }
+  const email =await Jwt.verify(Authorization,c.env.JWT_SECRET) as jwtPayload
+  
+  
+  
+
+  
+    const user = await prisma.user.findUnique({
+      where :{
+        email :email as string 
+      }
+    })
+    const coins = user?.coins
+    // console.log(coins);
+    
+    return c.json({
+      coins : coins
+    })
+  }
+  catch(e){
+    // console.log(e);
+    
+    c.status(400)
+    return c.json({
+      message :"some internal error "
+    })
+  }
+
+})
+
 
 

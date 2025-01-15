@@ -42,4 +42,35 @@ model User{
   email String @unique
   password String
   team Team[]
+  registeredTournaments RegisteredUser[]
+  coins Int @default(50)
+
 }
+
+model TournamentInfo {  
+  id             String              @id @default(uuid())
+  game           String
+  description    String
+  mode           String
+  price          Int
+  maxmembers     Int
+  registeredUser RegisteredUser[] 
+  
+}
+
+model RegisteredUser {
+  id           Int           @id @default(autoincrement())
+  userId       String
+  tournamentId String
+  tournament   TournamentInfo @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Packages{
+  id           String    @id @default(uuid())
+  coins        Int       
+  price        Int
+  active       Boolean  
+
+}
+

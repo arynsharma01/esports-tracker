@@ -16,7 +16,7 @@ export default function Menu() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative overflow-visible">
       {/* Toggle Menu Button */}
       <button
         onClick={toggleMenu}
@@ -30,7 +30,7 @@ export default function Menu() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-12 right-0 w-48 bg-white border border-gray-300 shadow-lg rounded-md">
+        <div className="absolute top-12 right-0 w-48 bg-white border border-gray-300 shadow-lg rounded-md z-50">
           <ul>
             <li
               className="p-2 hover:bg-gray-100 cursor-pointer"

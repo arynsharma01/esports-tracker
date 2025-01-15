@@ -7,6 +7,8 @@ import { cors } from 'hono/cors';
 import {  userRouter } from './Routes/user';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
+import { tournamentRouter } from './Routes/tournament';
+import { paymentRouter } from './Routes/payment';
 
 
 export const app = new Hono<{
@@ -50,6 +52,9 @@ app.get('/delete',async (c)=>{
 app.route('/api/v1/team' , teamRouter)
 app.route('/api/v1/player', playerRouter)
 app.route('/api/v1/user',userRouter)
+app.route('/api/v1/tournament',tournamentRouter)
+app.route('/api/v1/payment',paymentRouter)
+
 
 
 
