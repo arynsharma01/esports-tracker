@@ -43,7 +43,7 @@ export default function Tournaments() {
 
       {(loader)?<Loader/> :
       
-      data.map((tournament, index) => (
+      data.map((tournament) => (
   <TournamentCard id={tournament.id} mode={tournament.mode} description={tournament.description} game={tournament.game} price={tournament.price} registeredPlayers={tournament.registeredUser.length} maxPlayer={tournament.maxmembers}/>
 ))}
 
